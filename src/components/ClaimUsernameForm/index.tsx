@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormAnnotation } from '../FormAnnotation'
+import { useRouter } from 'next/navigation'
 
 const claimUsernameFormSchema = z.object({
   username: z
@@ -24,13 +25,17 @@ export function ClaimUsernameForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<ClaimUsernameFormData>({
     resolver: zodResolver(claimUsernameFormSchema),
   })
 
+  const router = useRouter()
+
   async function handleClaimUsername(data: ClaimUsernameFormData) {
-    console.log(data.username)
+    const { username } = data
+
+    await router.push(`/register?username=${username}`)
   }
 
   return (
@@ -53,21 +58,22 @@ export function ClaimUsernameForm() {
           size="lg"
           type="submit"
           className="flex w-full gap-4"
+          disabled={isSubmitting}
         >
           Reservar usuario
           <ArrowRight size={16} />
         </Button>
       </form>
-      <FormAnnotation>
-        {errors.username?.message ? (
-          <div className="flex w-full items-center justify-center gap-4 rounded bg-destructive p-2 text-red-100 md:w-fit">
-            <AlertCircleIcon className="text-red-100" />
-            <span className="">{errors.username?.message as string}</span>
-          </div>
-        ) : (
+      {errors.username ? (
+        <FormAnnotation>
+          <AlertCircleIcon size={16} className="text-red-100" />
+          <span className="">{errors.username.message as string}</span>
+        </FormAnnotation>
+      ) : (
+        <FormAnnotation className="justify-start bg-transparent text-white">
           <span>Digite o nome do usuário</span>
-        )}
-      </FormAnnotation>
+        </FormAnnotation>
+      )}
     </>
   )
 }

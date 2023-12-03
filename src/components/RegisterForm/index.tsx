@@ -7,6 +7,10 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { FormAnnotation } from '../FormAnnotation'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { api } from '@/lib/axios'
+import { AxiosError } from 'axios'
 
 const registerFormSchema = z.object({
   username: z
@@ -25,13 +29,34 @@ export function RegisterForm() {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
   })
 
+  const searchParams = useSearchParams()
+
+  const router = useRouter()
+
+  useEffect(() => {
+    if (searchParams.get('username') === null) return
+    setValue('username', searchParams.get('username') as string)
+  }, [searchParams, setValue])
+
   async function handleRegister(data: RegisterFormData) {
-    console.log(data.username, data.name)
+    try {
+      await api.post('/users', {
+        name: data.name,
+        username: data.username,
+      })
+
+      await router.push('/register/connect-calendar')
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        alert(err?.response?.data?.message)
+      }
+    }
   }
 
   return (
@@ -50,30 +75,35 @@ export function RegisterForm() {
         />
       </div>
 
-      {errors.username && (
-        <FormAnnotation>
-          <AlertCircleIcon className="text-red-100" />
-          <span className="">{errors.username.message as string}</span>
-        </FormAnnotation>
-      )}
+      <div className="w-full">
+        {errors.username && (
+          <FormAnnotation>
+            <AlertCircleIcon size={16} className="text-red-100" />
+            <span className="">{errors.username.message as string}</span>
+          </FormAnnotation>
+        )}
+      </div>
 
       <label className="w-full">Nome completo</label>
 
       <div className="flex w-full items-center justify-center">
         <Input type="text" placeholder="Seu nome" {...register('name')} />
       </div>
-      {errors.name && (
-        <FormAnnotation>
-          <AlertCircleIcon className="text-red-100" />
-          <span className="">{errors.name?.message as string}</span>
-        </FormAnnotation>
-      )}
+
+      <div className="w-full">
+        {errors.name && (
+          <FormAnnotation>
+            <AlertCircleIcon size={16} className="text-red-100" />
+            <span className="">{errors.name?.message as string}</span>
+          </FormAnnotation>
+        )}
+      </div>
 
       <Button
         variant="default"
         size="lg"
         type="submit"
-        className="bg-ignitePrimary hover:bg-igniteSecondary my-1 flex w-full gap-4 text-white"
+        className="my-1 flex w-full gap-4 bg-ignitePrimary text-white hover:bg-igniteSecondary"
         disabled={isSubmitting}
       >
         Próximo passo
