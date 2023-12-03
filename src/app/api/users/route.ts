@@ -1,6 +1,5 @@
 import { prisma } from '@/lib/prisma'
 import { NextApiResponse } from 'next'
-// import { setCookie } from 'nookies'
 
 import { cookies } from 'next/headers'
 
