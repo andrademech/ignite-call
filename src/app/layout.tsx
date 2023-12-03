@@ -1,12 +1,12 @@
 import './globals.css'
 
 import type { Metadata } from 'next'
-import { Inter as FontSans } from "next/font/google"
-import { cn } from "@/lib/utils"
+import { Inter as FontSans } from 'next/font/google'
+import { cn } from '@/lib/utils'
 
 export const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
+  subsets: ['latin'],
+  variable: '--font-sans',
 })
 
 export const metadata: Metadata = {
@@ -21,10 +21,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={cn(
-        "min-h-screen bg-background font-sans antialiased dark",
-        fontSans.variable
-      )}>
+      <body
+        className={cn(
+          'dark min-h-screen bg-background font-sans antialiased',
+          fontSans.variable,
+        )}
+      >
         {children}
       </body>
     </html>
