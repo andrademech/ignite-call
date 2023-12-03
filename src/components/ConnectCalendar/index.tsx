@@ -11,6 +11,8 @@ export function ConnectCalendarForm() {
   const session = useSession()
   const searchParams = useSearchParams()
 
+  console.log(session)
+
   const hasAuthError = !!searchParams.get('error')
   const isSingIn = session.status === 'authenticated'
 
