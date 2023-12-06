@@ -31,6 +31,7 @@ export async function POST(request: Request, response: NextApiResponse) {
   })
 
   console.log(user)
+
   return new Response(JSON.stringify({ user, response }), {
     status: 201,
   })
