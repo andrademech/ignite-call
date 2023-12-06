@@ -4,7 +4,7 @@ import { AlertCircleIcon, ArrowRight, Check } from 'lucide-react'
 import { Button } from '../ui/button'
 
 import { signIn, useSession } from 'next-auth/react'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { FormAnnotation } from '../FormAnnotation'
 
 export function ConnectCalendarForm() {
@@ -15,6 +15,7 @@ export function ConnectCalendarForm() {
 
   const hasAuthError = !!searchParams.get('error')
   const isSingIn = session.status === 'authenticated'
+  const router = useRouter()
 
   async function handleConnectCalendar() {
     try {
@@ -24,9 +25,13 @@ export function ConnectCalendarForm() {
     }
   }
 
+  async function nextStep() {
+    await router.push('/register/time-intervals')
+  }
+
   return (
-    <div className="flex flex-col items-center justify-center gap-4 rounded bg-zinc-900 px-4 py-6">
-      <div className="boder-zinc-700 flex w-full items-center justify-between rounded border px-6 py-4">
+    <div className="flex flex-col items-center justify-center gap-4 rounded border border-zinc-700 bg-zinc-900 px-4 py-6">
+      <div className="flex w-full items-center justify-between rounded border border-zinc-700 px-6 py-4">
         <h4 className="strong">Google Agenda</h4>
         <Button
           variant="outline"
@@ -68,6 +73,7 @@ export function ConnectCalendarForm() {
         type="submit"
         className="my-1 flex w-full gap-4 bg-ignitePrimary text-white hover:bg-igniteSecondary disabled:bg-zinc-700"
         disabled={!isSingIn}
+        onClick={nextStep}
       >
         Próximo passo
         <ArrowRight size={16} />

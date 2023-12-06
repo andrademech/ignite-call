@@ -74,8 +74,12 @@
   .max-w-container {
     max-width: calc(100vw - (100vw - 1160px) / 2)
   }
+
+  .calendar-picker {
+    color-scheme: dark;
+  }
 }
- 
+
 @layer base {
   * {
     @apply border-border;

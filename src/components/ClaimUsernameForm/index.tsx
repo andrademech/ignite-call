@@ -41,7 +41,7 @@ export function ClaimUsernameForm() {
   return (
     <>
       <form
-        className="flex flex-col items-center justify-center gap-4 rounded bg-zinc-900 p-5 lg:flex-row"
+        className="flex flex-col items-center justify-center gap-4 rounded border border-zinc-700 bg-zinc-900 p-5 lg:flex-row"
         onSubmit={handleSubmit(handleClaimUsername)}
       >
         <div className="flex w-full items-center justify-center gap-4">
@@ -67,7 +67,7 @@ export function ClaimUsernameForm() {
       {errors.username ? (
         <FormAnnotation>
           <AlertCircleIcon size={16} className="text-red-100" />
-          <span className="">{errors.username.message as string}</span>
+          <span>{errors.username.message as string}</span>
         </FormAnnotation>
       ) : (
         <FormAnnotation className="justify-start bg-transparent text-white">

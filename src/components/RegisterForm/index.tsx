@@ -62,7 +62,7 @@ export function RegisterForm() {
   return (
     <form
       onSubmit={handleSubmit(handleRegister)}
-      className="flex flex-col items-center justify-center gap-4 rounded bg-zinc-900 p-6"
+      className="flex flex-col items-center justify-center gap-4 rounded border border-zinc-700 bg-zinc-900 p-6"
     >
       <label className="w-full">Nome do usuário</label>
 

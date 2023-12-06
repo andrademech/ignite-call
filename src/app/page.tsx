@@ -5,7 +5,7 @@ import { ClaimUsernameForm } from '@/components/ClaimUsernameForm'
 export default function Home() {
   return (
     <div className="md:max-w-container ml-auto flex h-screen items-center justify-center gap-20">
-      <div className="flex max-w-md flex-col gap-4 px-4 py-10 md:max-w-[36rem]">
+      <div className="flex max-w-md flex-col gap-4 py-10 md:max-w-[36rem]">
         <h2 className="text-3xl font-bold md:text-5xl md:leading-tight">
           Agendamento descomplicado
         </h2>
